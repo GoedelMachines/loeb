@@ -1,0 +1,46 @@
+[tool.poetry]
+name = "autonomous-tester"
+version = "0.1.0"
+description = "Löb: an autonomous, LLM-driven end-to-end tester for voice and web apps"
+authors = ["Ramakrishna Kompella <rk@goedelmachines.com>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "autonomous_tester"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+anthropic = "^0.52"
+playwright = "^1.50"
+deepgram-sdk = "^3.0"
+psycopg2-binary = "^2.9"
+redis = "^5.0"
+docker = "^7.0"
+httpx = "^0.28"
+pydantic = "^2.0"
+sounddevice = "^0.5"
+soundfile = "^0.13"
+numpy = "^1.26"
+rich = "^14.3.3"
+python-dotenv = "^1.2.2"
+textual = "^8.0.2"
+openai = "^2.26.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.0"
+pytest-asyncio = "^0.24"
+ruff = "^0.9"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 99
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
