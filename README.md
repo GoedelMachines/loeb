@@ -19,7 +19,7 @@ uv tool install loeb   # or: pipx install loeb
 loeb install                          # downloads the Chromium build Playwright drives
 ```
 
-Löb is not on PyPI yet. Until it is, install from a checkout: `uv tool install .`
+Löb is on PyPI as [`loeb`](https://pypi.org/project/loeb/). To run unreleased changes, install from a checkout: `uv tool install .`
 
 **2. Set it up for your app.** Löb learns your app from two files in its repo: `loeb.json`, the profile (repos, health checks, pages and selectors, the sign-in form), and `loeb-target.md`, what a new tester would need to know. Writing them means reading your code, which is what a coding agent is good at. In your app's root:
 
