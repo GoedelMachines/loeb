@@ -1,0 +1,227 @@
+{
+  "$defs": {
+    "Auth": {
+      "additionalProperties": false,
+      "description": "The sign-in form login(method='browser') fills. Unset in the profile: the app has\nno sign-in form (login works only through Supabase token injection, if configured).",
+      "properties": {
+        "login_path": {
+          "default": "/sign-in",
+          "title": "Login Path",
+          "type": "string"
+        },
+        "email_selector": {
+          "default": "input#email",
+          "title": "Email Selector",
+          "type": "string"
+        },
+        "password_selector": {
+          "default": "input#password",
+          "title": "Password Selector",
+          "type": "string"
+        },
+        "submit_selector": {
+          "default": "button[type='submit']",
+          "title": "Submit Selector",
+          "type": "string"
+        },
+        "success_url_glob": {
+          "default": "**/app**",
+          "title": "Success Url Glob",
+          "type": "string"
+        }
+      },
+      "title": "Auth",
+      "type": "object"
+    },
+    "Check": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "http",
+            "tcp",
+            "unit"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "probe": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "items": {},
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Probe"
+        },
+        "fix": {
+          "default": "",
+          "title": "Fix",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "kind"
+      ],
+      "title": "Check",
+      "type": "object"
+    },
+    "Transcription": {
+      "additionalProperties": false,
+      "description": "Where read_transcription finds what the user and the app said. Unset: the tool is\nnot offered to the model.",
+      "properties": {
+        "user_selector": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "User Selector"
+        },
+        "agent_selector": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Agent Selector"
+        }
+      },
+      "title": "Transcription",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "$Schema"
+    },
+    "app_kind": {
+      "default": "web",
+      "enum": [
+        "web",
+        "voice"
+      ],
+      "title": "App Kind",
+      "type": "string"
+    },
+    "context": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Context"
+    },
+    "repos": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "default": {},
+      "title": "Repos",
+      "type": "object"
+    },
+    "api_health_path": {
+      "default": "/api/health",
+      "title": "Api Health Path",
+      "type": "string"
+    },
+    "checks": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/Check"
+      },
+      "title": "Checks",
+      "type": "array"
+    },
+    "systemd_units": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "title": "Systemd Units",
+      "type": "array"
+    },
+    "docker_containers": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "default": {},
+      "title": "Docker Containers",
+      "type": "object"
+    },
+    "auth": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Auth"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "transcription": {
+      "$ref": "#/$defs/Transcription",
+      "default": {
+        "user_selector": null,
+        "agent_selector": null
+      }
+    },
+    "extra_origins": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "title": "Extra Origins",
+      "type": "array"
+    },
+    "pages": {
+      "additionalProperties": {
+        "items": {
+          "type": "string"
+        },
+        "type": "array"
+      },
+      "default": {},
+      "title": "Pages",
+      "type": "object"
+    }
+  },
+  "title": "Löb target profile (loeb.json)",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

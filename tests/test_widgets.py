@@ -7,8 +7,8 @@ from textual.app import App, ComposeResult
 from textual.reactive import reactive
 from textual.widgets import DataTable
 
-from autonomous_tester.ui.theme import DUSK, LINEN
-from autonomous_tester.ui.widgets import (
+from loeb.ui.theme import DUSK, LINEN
+from loeb.ui.widgets import (
     ActiveTool,
     BugsPanel,
     StatsBar,
@@ -491,3 +491,16 @@ def test_format_thinking_mixed():
     assert "[bold]Plan:[/bold]" in result
     assert "  • [italic]analyze[/italic] the diff" in result
     assert "\\[API]" in result
+
+
+def test_unpriced_model_never_shows_a_dollar_figure():
+    from loeb.agent import cost_label
+    from loeb.ui.widgets import StatsBar
+
+    assert cost_label("deepseek-v4-flash", 0.0) == "unpriced"
+    assert cost_label("claude-sonnet-4-6", 1.5) == "$1.5000"
+    bar = StatsBar()
+    bar.model = "deepseek-v4-flash"
+    bar.input_tokens = 400_000
+    rendered = bar.render()
+    assert "unpriced" in rendered and "$" not in rendered

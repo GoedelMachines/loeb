@@ -1,6 +1,6 @@
 """Tests for the Löb theme system."""
 
-from autonomous_tester.ui.theme import DUSK, LINEN
+from loeb.ui.theme import DUSK, LINEN
 
 
 def test_dusk_is_dark():

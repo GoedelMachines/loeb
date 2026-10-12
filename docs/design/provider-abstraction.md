@@ -8,7 +8,7 @@ Additionally, the loop has several operational issues: sequential tool execution
 
 ## Design
 
-### Core Types (`autonomous_tester/llm/base.py`)
+### Core Types (`loeb/llm/base.py`)
 
 Normalized data types that all providers map to/from:
 
@@ -61,7 +61,7 @@ Tool definitions stay in Anthropic format as the canonical schema. Each provider
 
 `make_tool_result_message` / `make_assistant_message` let each provider format its own message history entries (Anthropic uses `tool_result` blocks, OpenAI uses `role: "tool"` messages).
 
-### Anthropic Provider (`autonomous_tester/llm/anthropic.py`)
+### Anthropic Provider (`loeb/llm/anthropic.py`)
 
 Extracts the current streaming logic from `agent.py:539-607` into a provider class.
 
@@ -73,7 +73,7 @@ Extracts the current streaming logic from `agent.py:539-607` into a provider cla
 
 Extended thinking not added now, but the provider is where it would go.
 
-### OpenAI Provider (`autonomous_tester/llm/openai.py`)
+### OpenAI Provider (`loeb/llm/openai.py`)
 
 Covers GPT-4o, o3, and any OpenAI-compatible endpoint (Groq, Together, Fireworks) via configurable `base_url`.
 
@@ -161,19 +161,19 @@ CLI additions: `--provider`, `--openai-model`.
 ### File Changes
 
 New files:
-- `autonomous_tester/llm/__init__.py`
-- `autonomous_tester/llm/base.py`
-- `autonomous_tester/llm/anthropic.py`
-- `autonomous_tester/llm/openai.py`
+- `loeb/llm/__init__.py`
+- `loeb/llm/base.py`
+- `loeb/llm/anthropic.py`
+- `loeb/llm/openai.py`
 - `tests/test_llm_base.py`
 - `tests/test_llm_anthropic.py`
 - `tests/test_llm_openai.py`
 
 Modified files:
-- `autonomous_tester/agent.py` — replace streaming logic with provider calls, add parallel execution, tool timeouts, message management, error detection
-- `autonomous_tester/config.py` — new provider/openai fields, max_tokens
-- `autonomous_tester/run.py` — provider selection, new CLI args
-- `autonomous_tester/tool_registry.py` — add timeout metadata per tool
+- `loeb/agent.py` — replace streaming logic with provider calls, add parallel execution, tool timeouts, message management, error detection
+- `loeb/config.py` — new provider/openai fields, max_tokens
+- `loeb/run.py` — provider selection, new CLI args
+- `loeb/tool_registry.py` — add timeout metadata per tool
 - `pyproject.toml` — add `openai` dependency
 - `tests/test_agent.py` — update for provider-based agent
 

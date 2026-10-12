@@ -1,4 +1,4 @@
-from autonomous_tester.llm.base import (
+from loeb.llm.base import (
     CompletionResult,
     StreamEvent,
     ToolCall,

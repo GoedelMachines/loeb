@@ -1,11 +1,17 @@
 [tool.poetry]
-name = "autonomous-tester"
+name = "loeb"
 version = "0.1.0"
 description = "Löb: an autonomous, LLM-driven end-to-end tester for voice and web apps"
 authors = ["Ramakrishna Kompella <rk@goedelmachines.com>"]
 license = "MIT"
 readme = "README.md"
-packages = [{include = "autonomous_tester"}]
+homepage = "https://github.com/GoedelMachines/loeb"
+repository = "https://github.com/GoedelMachines/loeb"
+keywords = ["testing", "e2e", "llm", "agent", "playwright"]
+packages = [{include = "loeb"}]
+
+[tool.poetry.scripts]
+loeb = "loeb.cli:main"
 
 [tool.poetry.dependencies]
 python = "^3.10"

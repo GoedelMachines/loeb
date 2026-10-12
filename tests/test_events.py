@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from autonomous_tester.ui.events import (
+from loeb.ui.events import (
     AgentStarted,
     BugFiled,
     IterationStarted,

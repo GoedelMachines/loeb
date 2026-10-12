@@ -2,7 +2,7 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from autonomous_tester.tool_registry import (
+from loeb.tool_registry import (
     DEFAULT_TOOL_TIMEOUT,
     TOOL_DEFINITIONS,
     TOOL_TIMEOUTS,
@@ -51,3 +51,37 @@ def test_all_defined_tools_have_valid_timeout():
     for tool in TOOL_DEFINITIONS:
         timeout = TOOL_TIMEOUTS.get(tool["name"], DEFAULT_TOOL_TIMEOUT)
         assert timeout > 0
+
+
+def _registry(backend_dir="", frontend_dir=""):
+    config = MagicMock()
+    config.backend_dir = backend_dir
+    config.frontend_dir = frontend_dir
+    return ToolRegistry(
+        services=MagicMock(), browser=MagicMock(), audio=MagicMock(),
+        backend=MagicMock(), reporter=MagicMock(), config=config,
+    )
+
+
+@pytest.mark.asyncio
+async def test_git_diff_unset_frontend_is_an_error_result_not_a_crash(tmp_path):
+    reg = _registry(backend_dir=str(tmp_path))
+    reg.config.target_profile = reg.config.target_services = reg.config.target_context = ""
+    reg.config.profile = None
+    result = await reg.dispatch("git_diff", {"repo": "frontend"})
+    assert result == "Error: unknown repo 'frontend'. Configured repos: backend."
+
+
+@pytest.mark.asyncio
+async def test_git_diff_unknown_repo_name():
+    result = await _registry().dispatch("git_diff", {"repo": "mobile"})
+    assert result.startswith("Error: unknown repo 'mobile'")
+
+
+def test_configured_repos_skips_unset():
+    from loeb.tool_registry import configured_repos
+
+    config = _registry(backend_dir="/x").config
+    config.target_profile = config.target_services = config.target_context = ""
+    config.profile = None
+    assert configured_repos(config) == ["backend"]

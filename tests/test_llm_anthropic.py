@@ -2,8 +2,8 @@
 
 import copy
 
-from autonomous_tester.llm.anthropic import AnthropicProvider
-from autonomous_tester.llm.base import ToolCall
+from loeb.llm.anthropic import AnthropicProvider
+from loeb.llm.base import ToolCall
 
 
 def _make_provider() -> AnthropicProvider:

@@ -12,7 +12,7 @@ Replace the Rich Live dashboard with a Textual TUI app. Keep the agent loop unch
 
 ```
 ┌──────────────────────────────────────────────────────────┐
-│  Autonomous Tester              Phase 3/7: Browser   ◆  │  Header
+│  Löb              Phase 3/7: Browser   ◆  │  Header
 ├────────────────┬─────────────────────────────────────────┤
 │ ITER   12/200  │                                         │
 │ TIME   2m 34s  │  Thinking text streams here as a        │  Thinking
@@ -89,12 +89,12 @@ Starts with verbose mode on (full tool results in the log panel). Can also be to
 ## Architecture
 
 ```
-autonomous_tester/
+loeb/
 ├── agent.py          # Agent class stays, Dashboard class removed
 ├── ui/
 │   ├── app.py        # TextualApp(App) — main app, composes widgets, runs agent in Worker
 │   ├── widgets.py    # StatsPanel, ThinkingLog, ToolLog, CurrentTool, BugsPanel
-│   ├── screens.py    # InteractiveSetupScreen, ToolDetailScreen (modal)
+│   ├── screens.py    # ToolDetailScreen (modal)
 │   ├── styles.tcss   # Textual CSS
 │   └── events.py     # Custom messages: ToolCompleted, ThinkingUpdate, BugFiled, etc.
 ├── run.py            # Adds --dry-run, --verbose; launches TextualApp or prints dry-run

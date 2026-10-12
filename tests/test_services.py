@@ -2,7 +2,7 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
-from autonomous_tester.tools.services import ServiceManager
+from loeb.tools.services import ServiceManager
 
 
 @pytest.fixture
@@ -44,19 +44,11 @@ async def test_health_check_url_fails(config):
         assert result is False
 
 
-def test_load_checks_defaults_without_target_file(config):
-    from autonomous_tester.tools.services import DEFAULT_CHECKS, load_checks
-
-    assert load_checks(config) == DEFAULT_CHECKS
-
-
-def test_load_checks_from_example_target_file(config):
-    from pathlib import Path
-
-    from autonomous_tester.tools.services import load_checks
-
-    example = Path(__file__).parent.parent / "examples/voice-assistant/services.json"
-    config.target_services = str(example)
-    checks = load_checks(config)
-    assert checks[0][0].startswith("API")
-    assert ("127.0.0.1", 7880) in [c[2] for c in checks]
+@pytest.mark.asyncio
+async def test_default_checks_without_profile(config):
+    config.profile = None
+    config.target_profile = ""
+    sm = ServiceManager(config)
+    sm._check_http = AsyncMock(return_value=True)
+    out = await sm.start_all()
+    assert "✓ API" in out and "✓ Website" in out

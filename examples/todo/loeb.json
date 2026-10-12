@@ -1,0 +1,12 @@
+{
+  "$schema": "../../schema/loeb.schema.json",
+  "app_kind": "web",
+  "context": "loeb-target.md",
+  "checks": [
+    {"name": "Website", "kind": "http", "probe": "website",
+     "fix": "python -m http.server 8000 (in examples/todo)"}
+  ],
+  "pages": {
+    "/": ["#new-todo", "#add", "#todo-list", "#count"]
+  }
+}

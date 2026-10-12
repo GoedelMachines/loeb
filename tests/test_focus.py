@@ -5,7 +5,7 @@ from __future__ import annotations
 import pytest
 from textual.app import App, ComposeResult
 
-from autonomous_tester.ui.focus import (
+from loeb.ui.focus import (
     FocusAction,
     FocusLayout,
     FocusThinking,

@@ -1,5 +1,5 @@
-from autonomous_tester.llm.base import ToolCall
-from autonomous_tester.llm.openai import OpenAIProvider
+from loeb.llm.base import ToolCall
+from loeb.llm.openai import OpenAIProvider
 
 
 def _make_provider(**kwargs):

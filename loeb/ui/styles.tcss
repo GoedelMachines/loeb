@@ -1,0 +1,384 @@
+/* loeb — autonomous test observer */
+
+/* ═══════════════════════════════════════════════════════
+   BASE LAYOUT (theme-independent structure)
+   ═══════════════════════════════════════════════════════ */
+
+Screen {
+    layers: base overlay;
+}
+
+HeaderBar {
+    dock: top;
+    height: 1;
+    padding: 0 1;
+}
+
+#dashboard {
+    height: 1fr;
+}
+
+#sidebar {
+    width: 24;
+    padding: 1 0 0 0;
+}
+
+#main-area {
+    width: 1fr;
+}
+
+#stats-bar {
+    height: auto;
+    background: transparent;
+    padding: 0 1;
+}
+
+#thinking-panel {
+    height: auto;
+    max-height: 40%;
+    padding: 0 2;
+    background: transparent;
+}
+
+#thinking-panel.collapsed {
+    height: 1;
+    max-height: 1;
+}
+
+#thinking-panel.expanded {
+    height: auto;
+    max-height: 40%;
+    min-height: 3;
+    padding: 0 1 0 1;
+    margin: 0 0 0 1;
+}
+
+#active-tool {
+    height: 1;
+    padding: 0 2;
+    margin: 0;
+}
+
+#tool-log {
+    height: 1fr;
+    padding: 0 1;
+    background: transparent;
+}
+
+DataTable {
+    background: transparent;
+    height: 1fr;
+    scrollbar-size: 0 0;
+}
+
+DataTable > .datatable--header {
+    background: transparent;
+    text-style: none;
+}
+
+DataTable > .datatable--even-row {
+    background: transparent;
+}
+
+DataTable > .datatable--odd-row {
+    background: transparent;
+}
+
+#bugs-panel {
+    height: auto;
+    max-height: 6;
+    display: none;
+    padding: 0 1;
+    background: transparent;
+}
+
+#bugs-panel.has-bugs {
+    display: block;
+}
+
+Footer {
+    dock: bottom;
+}
+
+Footer > .footer--key {
+    background: transparent;
+}
+
+/* ── notifications ───────────────────────────────────── */
+
+Toast {
+    width: auto;
+    max-width: 60;
+}
+
+.dusk Toast {
+    background: #180f24;
+    border-left: outer #e8907a;
+    color: #dde0c8;
+}
+
+.dusk Toast.-information {
+    border-left: outer #e8907a;
+}
+
+.dusk Toast.-error {
+    border-left: outer #ef4444;
+}
+
+.linen Toast {
+    background: #fafafa;
+    border-left: outer #d4705a;
+    color: #1e1d26;
+}
+
+.linen Toast.-information {
+    border-left: outer #d4705a;
+}
+
+.linen Toast.-error {
+    border-left: outer #dc2626;
+}
+
+ToolDetailScreen {
+    align: center middle;
+    layer: overlay;
+}
+
+#tool-detail-container {
+    width: 85%;
+    height: 80%;
+    padding: 1 2;
+}
+
+#tool-detail-log {
+    background: transparent;
+}
+
+#tool-detail-title {
+    text-style: bold;
+    padding-bottom: 1;
+}
+
+/* ── focus mode layout — radical minimalism ──────────── */
+
+#focus-layout {
+    height: 1fr;
+    display: none;
+}
+
+#focus-layout.active {
+    display: block;
+}
+
+#metrics-strip {
+    dock: top;
+    height: 1;
+    padding: 0 2;
+}
+
+#focus-main {
+    height: 1fr;
+    align: center middle;
+    padding: 2 6;
+}
+
+#focus-thinking {
+    height: auto;
+    max-height: 50%;
+    width: 100%;
+    padding: 1 2;
+}
+
+#focus-action {
+    height: auto;
+    width: 100%;
+    padding: 0 2;
+}
+
+/* ═══════════════════════════════════════════════════════
+   DUSK (dark theme)
+   ═══════════════════════════════════════════════════════ */
+
+Screen.dusk,
+TesterApp.dusk {
+    background: #0e0718;
+}
+
+.dusk HeaderBar {
+    background: #0a0612;
+    border-bottom: heavy #e8907a 30%;
+    color: #e8907a;
+}
+
+.dusk #sidebar {
+    background: #0a0612;
+    border-right: solid #5a4e66;
+}
+
+.dusk #thinking-panel {
+    color: #9a9878;
+}
+
+.dusk #thinking-panel.expanded {
+    border-left: thick #a78bfa;
+    background: #120c1e;
+}
+
+.dusk #active-tool {
+    background: #0c0816;
+}
+
+.dusk DataTable > .datatable--cursor {
+    background: #20152c;
+    color: #dde0c8;
+}
+
+.dusk DataTable > .datatable--header {
+    color: #5a4860;
+}
+
+.dusk DataTable > .datatable--hover {
+    background: #180f24;
+}
+
+.dusk Footer {
+    background: #0a0612;
+    color: #7a6e88;
+}
+
+.dusk Footer > .footer--key {
+    color: #e8907a;
+    background: transparent;
+}
+
+.dusk Footer > .footer--description {
+    color: #7a6e88;
+}
+
+.dusk Footer > .footer--highlight {
+    background: #20152c;
+}
+
+.dusk Footer > .footer--highlight-key {
+    background: #20152c;
+    color: #e8907a;
+}
+
+.dusk ToolDetailScreen {
+    background: #000000 90%;
+}
+
+.dusk #tool-detail-container {
+    border: tall #5a4e66;
+    background: #0a0612;
+}
+
+.dusk #tool-detail-title {
+    color: #e8907a;
+}
+
+.dusk #metrics-strip {
+    background: #0a0612;
+}
+
+.dusk #focus-thinking {
+    background: transparent;
+}
+
+.dusk #focus-action {
+    background: transparent;
+}
+
+/* ═══════════════════════════════════════════════════════
+   LINEN (light theme)
+   ═══════════════════════════════════════════════════════ */
+
+Screen.linen,
+TesterApp.linen {
+    background: #ffffff;
+}
+
+.linen HeaderBar {
+    background: #fafafa;
+    border-bottom: heavy #e8907a 30%;
+    color: #e8907a;
+}
+
+.linen #sidebar {
+    background: #fafafa;
+    border-right: solid #e2e2e8;
+}
+
+.linen #thinking-panel {
+    color: #5e5d74;
+}
+
+.linen #thinking-panel.expanded {
+    border-left: thick #8b5cf6;
+    background: #f5f5f5;
+}
+
+.linen #active-tool {
+    background: #f5f5f5;
+}
+
+.linen DataTable > .datatable--cursor {
+    background: #f0f0f2;
+    color: #1e1d26;
+}
+
+.linen DataTable > .datatable--header {
+    color: #9898a8;
+}
+
+.linen DataTable > .datatable--hover {
+    background: #fafafa;
+}
+
+.linen Footer {
+    background: #fafafa;
+    color: #9898a8;
+}
+
+.linen Footer > .footer--key {
+    color: #d4705a;
+    background: transparent;
+}
+
+.linen Footer > .footer--description {
+    color: #9898a8;
+}
+
+.linen Footer > .footer--highlight {
+    background: #f0f0f2;
+}
+
+.linen Footer > .footer--highlight-key {
+    background: #f0f0f2;
+    color: #d4705a;
+}
+
+.linen ToolDetailScreen {
+    background: #000000 40%;
+}
+
+.linen #tool-detail-container {
+    border: tall #e2e2e8;
+    background: #ffffff;
+}
+
+.linen #tool-detail-title {
+    color: #d4705a;
+}
+
+.linen #metrics-strip {
+    background: #fafafa;
+}
+
+.linen #focus-thinking {
+    background: transparent;
+}
+
+.linen #focus-action {
+    background: transparent;
+}

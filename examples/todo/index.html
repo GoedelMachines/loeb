@@ -1,0 +1,81 @@
+<!doctype html>
+<!-- A to-do list for trying Löb. It has one planted bug; let Löb find it. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>To-do</title>
+<style>
+  body { font: 16px system-ui, sans-serif; max-width: 32rem; margin: 3rem auto; padding: 0 1rem; }
+  form { display: flex; gap: .5rem; }
+  #new-todo { flex: 1; padding: .5rem; font: inherit; }
+  ul { list-style: none; padding: 0; }
+  li { display: flex; justify-content: space-between; align-items: center;
+       padding: .5rem 0; border-bottom: 1px solid #ddd; }
+  .todo-text.done { text-decoration: line-through; color: #888; }
+  button { font: inherit; cursor: pointer; }
+</style>
+</head>
+<body>
+<h1>To-do</h1>
+<form id="add-form">
+  <input id="new-todo" name="todo" placeholder="What needs doing?" autocomplete="off">
+  <button id="add" type="submit">Add</button>
+</form>
+<ul id="todo-list"></ul>
+<p><span id="count">0 items</span></p>
+
+<script>
+  const KEY = "todos";
+  let todos = JSON.parse(localStorage.getItem(KEY) || "[]");  // oldest first
+
+  function save() {
+    localStorage.setItem(KEY, JSON.stringify(todos));
+  }
+
+  function render() {
+    const list = document.getElementById("todo-list");
+    list.innerHTML = "";
+    // Newest on top.
+    [...todos].reverse().forEach((todo, shown) => {
+      const li = document.createElement("li");
+      li.className = "todo-item";
+      li.dataset.id = todo.id;
+      const text = document.createElement("span");
+      text.className = "todo-text" + (todo.done ? " done" : "");
+      text.textContent = todo.text;
+      text.addEventListener("click", () => {
+        todo.done = !todo.done;
+        save();
+        render();
+      });
+      const del = document.createElement("button");
+      del.className = "delete";
+      del.textContent = "Delete";
+      del.setAttribute("aria-label", "Delete " + todo.text);
+      del.addEventListener("click", () => {
+        todos.splice(shown, 1);
+        save();
+        render();
+      });
+      li.append(text, del);
+      list.append(li);
+    });
+    const n = todos.length;
+    document.getElementById("count").textContent = n + (n === 1 ? " item" : " items");
+  }
+
+  document.getElementById("add-form").addEventListener("submit", (event) => {
+    event.preventDefault();
+    const input = document.getElementById("new-todo");
+    const text = input.value.trim();
+    if (!text) return;
+    todos.push({ id: Date.now(), text, done: false });
+    input.value = "";
+    save();
+    render();
+  });
+
+  render();
+</script>
+</body>
+</html>

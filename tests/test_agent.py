@@ -1,7 +1,7 @@
 from unittest.mock import MagicMock
 
-from autonomous_tester.agent import SYSTEM_PROMPT, Agent
-from autonomous_tester.llm.base import is_tool_error
+from loeb.agent import SYSTEM_PROMPT, Agent
+from loeb.llm.base import is_tool_error
 
 
 def make_agent():
@@ -21,8 +21,8 @@ def test_agent_init():
 
 def test_agent_system_prompt_includes_key_info():
     assert "Löb" in SYSTEM_PROMPT
-    assert "voice" in SYSTEM_PROMPT.lower()
     assert "backend" in SYSTEM_PROMPT.lower()
+    assert "voice" not in SYSTEM_PROMPT.lower()  # web by default; voice adds VOICE_PROMPT
 
 
 def test_agent_accepts_event_callback():
@@ -57,7 +57,7 @@ def test_is_tool_error_used_in_agent():
 def test_play_sound_noop_when_ci_set(monkeypatch):
     """_play_sound does nothing when CI env var is set."""
     monkeypatch.setenv("CI", "true")
-    from autonomous_tester.agent import _play_sound
+    from loeb.agent import _play_sound
 
     _play_sound("/System/Library/Sounds/Glass.aiff")
 
@@ -65,14 +65,14 @@ def test_play_sound_noop_when_ci_set(monkeypatch):
 def test_play_sound_noop_on_non_darwin(monkeypatch):
     """_play_sound does nothing on non-Darwin platforms."""
     monkeypatch.delenv("CI", raising=False)
-    monkeypatch.setattr("autonomous_tester.agent.sys.platform", "linux")
-    from autonomous_tester.agent import _play_sound
+    monkeypatch.setattr("loeb.agent.sys.platform", "linux")
+    from loeb.agent import _play_sound
 
     _play_sound("/System/Library/Sounds/Glass.aiff")
 
 
 def test_build_system_prompt_appends_target_context(tmp_path):
-    from autonomous_tester.agent import build_system_prompt
+    from loeb.agent import build_system_prompt
 
     target = tmp_path / "target.md"
     target.write_text("Selector: `.orb`")

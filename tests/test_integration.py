@@ -3,14 +3,14 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
-from autonomous_tester.agent import Agent
-from autonomous_tester.config import Config
-from autonomous_tester.tool_registry import TOOL_DEFINITIONS, ToolRegistry
-from autonomous_tester.tools.audio import AudioSystem
-from autonomous_tester.tools.backend import BackendTools
-from autonomous_tester.tools.browser import BrowserTools
-from autonomous_tester.tools.reporter import Reporter
-from autonomous_tester.tools.services import ServiceManager
+from loeb.agent import Agent
+from loeb.config import Config
+from loeb.tool_registry import TOOL_DEFINITIONS, ToolRegistry
+from loeb.tools.audio import AudioSystem
+from loeb.tools.backend import BackendTools
+from loeb.tools.browser import BrowserTools
+from loeb.tools.reporter import Reporter
+from loeb.tools.services import ServiceManager
 
 
 @pytest.fixture

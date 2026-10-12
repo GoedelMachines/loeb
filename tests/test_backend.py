@@ -2,7 +2,7 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
-from autonomous_tester.tools.backend import BackendTools
+from loeb.tools.backend import BackendTools
 
 
 @pytest.fixture
@@ -44,3 +44,20 @@ async def test_read_logs(config):
         bt = BackendTools(config)
         result = await bt.read_logs("worker", 10)
         assert "worker log line 1" in result
+
+
+@pytest.mark.asyncio
+async def test_read_logs_refuses_option_like_service(config):
+    with patch("subprocess.run") as run:
+        result = await BackendTools(config).read_logs("--help", 10)
+    assert result.startswith("Error:")
+    run.assert_not_called()
+
+
+@pytest.mark.asyncio
+async def test_read_logs_compose_service_after_double_dash(config):
+    mock_result = MagicMock(stdout="ok", stderr="", returncode=0)
+    with patch("subprocess.run", return_value=mock_result) as run:
+        await BackendTools(config).read_logs("worker", 10)
+    cmd = run.call_args.args[0]
+    assert cmd[-2:] == ["--", "worker"]
